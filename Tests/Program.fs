@@ -1,0 +1,74 @@
+module Program
+    open SdlangFSharp
+
+    let [<EntryPoint>] main _ =
+        let code = """
+        name "vibe-d"
+        description "Event driven web and concurrency framework"
+        homepage "https://vibed.org/"
+        
+        license "MIT"
+        copyright "Copyright © 2012-2020 Sönke Ludwig"
+        authors "Sönke Ludwig" "Mathias 'Geod24' Lang" "Etienne Cimon" "Martin Nowak" \
+        	"Mihails 'Dicebot' Strasuns" "150 contributors total"
+        
+        systemDependencies "Optionally OpenSSL 1.1.x"
+        dependency ":redis" version="*"
+        dependency ":data" version="*"
+        dependency ":mongodb" version="*"
+        dependency ":web" version="*"
+        dependency ":utils" version="*"
+        dependency ":http" version="*"
+        dependency ":mail" version="*"
+        dependency ":stream" version="*"
+        dependency ":tls" version="*"
+        dependency ":crypto" version="*"
+        dependency ":textfilter" version="*"
+        dependency ":inet" version="*"
+        
+        targetType "library"
+        targetName "vibed"
+        
+        // NOTE: "lib" is a path with no D sources to work around an issue in DUB 1.0.0
+        //       and below that results in the standard "source/" path to be added even
+        //       if an explicit "sourcePaths" directive is given.
+        sourcePaths "lib"
+        sourceFiles "source/vibe/d.d" "source/vibe/vibe.d"
+        
+        x:ddoxFilterArgs "--unittest-examples" "--min-protection=Protected"\
+        	"--ex" "vibe.core.drivers." "--ex" "vibe.internal." "--ex" "vibe.web.internal."\
+        	"--ex" "diet.internal" "--ex" "stdx." "--ex" "eventcore.internal." "--ex" "eventcore.drivers."\
+        	"--ex" "mir." "--ex" "openssl_version"
+        
+        configuration "vibe-core" {
+        	subConfiguration "vibe-d:core" "vibe-core"
+        }
+        configuration "win32_mscoff" {
+        	subConfiguration "vibe-d:core" "win32_mscoff"
+        }
+        configuration "libevent" {
+        	subConfiguration "vibe-d:core" "libevent"
+        }
+        configuration "libasync" {
+        	subConfiguration "vibe-d:core" "libasync"
+        }
+        configuration "win32" {
+        	subConfiguration "vibe-d:core" "win32"
+        }
+        
+        subPackage "utils"
+        subPackage "data"
+        subPackage "core"
+        subPackage "stream"
+        subPackage "tls"
+        subPackage "crypto"
+        subPackage "textfilter"
+        subPackage "inet"
+        subPackage "mail"
+        subPackage "http"
+        subPackage "mongodb"
+        subPackage "redis"
+        subPackage "web"
+        """
+        let r = Parser.ParseSdlang (code)
+        0
