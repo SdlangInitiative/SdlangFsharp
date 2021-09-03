@@ -32,7 +32,7 @@ module Program
         0
 ```
 
-# Usage for building AST
+# Usage for building AST and emitting
 
 ```fsharp
 module Program
@@ -50,9 +50,8 @@ module Program
         pet.Attributes.Add ({ Namespace = "is"; Name = "cute"; Value = SdlValue.Boolean(true) })
 
         owner.Values.Add (SdlValue.String("Bradley"))
+
+        let sdl = Emitter.EmitSdlang (root)
+        Assert.Equal("pet:dog \"Cooper\" is:cute=true {\n    owner \"Bradley\" \n}\n", sdl)
         0
 ```
-
-# Usage for emitting
-
-TODO

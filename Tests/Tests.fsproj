@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="EmitterTests.fs" />
     <Compile Include="ParseTests.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>

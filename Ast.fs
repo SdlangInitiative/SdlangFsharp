@@ -35,7 +35,7 @@ type SdlTag(nspace: string, name: string) =
     member val Attributes   = new List<SdlAttribute>() with get, set
     member val Children     = new List<SdlTag>() with get, set
 
-    member this.QualifiedName = if this.Namespace <> null then this.Namespace + ":" + this.Name else this.Name 
+    member this.QualifiedName() = if this.Namespace <> null then this.Namespace + ":" + this.Name else this.Name 
     member this.GetAttribute(fqn) = 
         this.Attributes 
         |> Seq.filter (fun a -> a.QualifiedName() = fqn)
@@ -45,7 +45,7 @@ type SdlTag(nspace: string, name: string) =
     member this.GetChildrenBy(pred)             = this.Children |> Seq.filter pred
     member this.GetChildrenByName(name)         = this.GetChildrenBy (fun c -> c.Name = name)
     member this.GetChildrenByNamespace(name)    = this.GetChildrenBy (fun c -> c.Namespace = name)
-    member this.GetChildrenByFQN(name)          = this.GetChildrenBy (fun c -> c.QualifiedName = name)
+    member this.GetChildrenByFQN(name)          = this.GetChildrenBy (fun c -> c.QualifiedName() = name)
     member this.GetValueAsString(index)         = match this.Values.[index] with String v    -> Some v | _ -> None
     member this.GetValueAsInteger(index)        = match this.Values.[index] with Integer v   -> Some v | _ -> None
     member this.GetValueAsFloating(index)       = match this.Values.[index] with Floating v  -> Some v | _ -> None
