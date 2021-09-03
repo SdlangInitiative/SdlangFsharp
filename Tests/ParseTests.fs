@@ -72,7 +72,9 @@ let ``attribute`` () =
 
 [<Fact>]
 let ``tag`` () =
-    let result = parse ptag "a:b \"c\" one=23"
-    Assert.Equal(1, result.Values.Count);
-    Assert.Equal(1, result.Attributes.Count);
+    let result = (ParseSdlang "a:b \"c\" one=23").Children.[0]
+    Assert.Equal(1, result.Values.Count)
+    Assert.Equal(1, result.Attributes.Count)
+    Assert.Equal(Some "c", result.GetValueAsString(0))
+    Assert.Equal(Some 23L, result.GetAttribute("one").Value.AsInteger())
     ()

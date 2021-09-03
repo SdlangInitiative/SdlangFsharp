@@ -172,8 +172,8 @@ module Parser =
         >>. opt (attempt (pident .>> skipChar ':'))
         .>>. pident
         .>> ws
-        .>>. many (escapedNewLine >>. ws >>. pvalue .>> ws .>> escapedNewLine)
-        .>>. many (escapedNewLine >>. ws >>. pattribute .>> ws .>> escapedNewLine)
+        .>>. many (escapedNewLine >>. ws >>. attempt pvalue .>> ws .>> escapedNewLine)
+        .>>. many (escapedNewLine >>. ws >>. attempt pattribute .>> ws .>> escapedNewLine)
         .>> ws
         |>> fun value -> match value with
                          | (((Some nspace, name), values), attributes) -> (nspace, name, values, attributes)
